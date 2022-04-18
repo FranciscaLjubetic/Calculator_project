@@ -75,7 +75,6 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
             Number1.add(toNumber(s));
         }
 
-
         for (String s : Number2Array) {
             Number2.add(toNumber(s));
         }
@@ -120,7 +119,6 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
                 break;
         }
     }
-
 
     @Override
     public boolean isValid(String str) {
