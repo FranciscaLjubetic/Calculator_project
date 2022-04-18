@@ -9,7 +9,7 @@ public class CalculatorRegular {
     String Opr;
     double Op1;
     double Op2;
-    static Double result = 0.0;
+    static Double result;
     Scanner lScanner = new Scanner(System.in);
 
     public void askOperation( ){

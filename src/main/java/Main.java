@@ -11,7 +11,7 @@ public class Main{
 
             Scanner lScanner = new Scanner(System.in);
             System.out.println("Please select mode: 1-Regular, 2-InversePolish, 3- Listed, 4-Number Type");
-            System.out.println("Remember to use coma to write non integer numbers");
+            System.out.println("Remember to use coma to write non integer numbers.\nNumbers with dots are not considered numbers here.");
             String option  = lScanner.nextLine();
 
             CalculatorRegular c1 = new CalculatorRegular();
