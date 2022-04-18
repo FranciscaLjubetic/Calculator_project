@@ -4,9 +4,23 @@ import java.util.Scanner;
 
 public class TypedNumber extends Number implements Validator{
 
+    public void asknumTypes() {
+        Scanner lScanner = new Scanner(System.in);
+        System.out.println("Enter an int  number to get its type:");
+        int num = lScanner.nextInt();
+
+        TypedNumber numToAsk = new TypedNumber();
+
+        numToAsk.setNum(num);
+
+        numToAsk.printResult();
+
+    }
+
     @Override
     public boolean isPalindrome(int num) {
         String numElements = Integer.toString(num);
+
         if(numElements.length() == 1){
             return false;
         } else {
@@ -20,10 +34,12 @@ public class TypedNumber extends Number implements Validator{
             }
             return true;
         }
+
     }
 
     @Override
     public boolean isPrime(int num) {
+
         if(num == 0 || num == 1 ){
             return false;
         }
@@ -33,6 +49,7 @@ public class TypedNumber extends Number implements Validator{
                 return false;
             }
         }
+
         return true;
     }
 
@@ -57,8 +74,10 @@ public class TypedNumber extends Number implements Validator{
                 if(n == fib.get(i)){
                     return true;
                 }
+
             }
         }
+
         return false;
     }
 
@@ -71,17 +90,4 @@ public class TypedNumber extends Number implements Validator{
         System.out.println(pal + pr + fib);
     }
 
-    public void asknumTypes() {
-        Scanner lScanner = new Scanner(System.in);
-        System.out.println("Enter a number to get its type:");
-        int num = lScanner.nextInt();
-
-        TypedNumber numToAsk = new TypedNumber();
-
-        numToAsk.setNum(num);
-
-        numToAsk.printResult();
-
-        lScanner.close();
-    }
 }

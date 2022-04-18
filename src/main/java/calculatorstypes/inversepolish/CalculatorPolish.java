@@ -9,14 +9,14 @@ import calculatorstypes.regular.CalculatorRegular;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class CalculatorPolish extends CalculatorRegular implements ReduceResult, IsValid, ToNumber {
+public class CalculatorPolish extends CalculatorRegular {
 
     Double result = 0.0;
     Double Op1 = 0.0;
     Double Op2 = 0.0;
     String Opr = "";
-    Scanner lScanner = new Scanner(System.in);;
-    Stack<Double> operationSentence = new Stack<Double>();
+    Scanner lScanner = new Scanner(System.in);
+    Stack<Double> operationSentence = new Stack<>();
     String[] splitOperation;
     String data;
     Double op_i;
@@ -29,14 +29,14 @@ public class CalculatorPolish extends CalculatorRegular implements ReduceResult,
         splitOperation = data.split(" ");
 
         if (splitOperation.length < 3
-                || !isValid(splitOperation[0])
-                || !isValid(splitOperation[1])){
-            System.out.println("Please provide arguments in the required format. Try again");
+                || !v.isValid(splitOperation[0])
+                || !v.isValid(splitOperation[1])){
+            System.out.println("You should enter processable sentences.");
             lScanner.close();
         }
 
-        operationSentence.push(toNumber(splitOperation[0]));
-        operationSentence.push(toNumber(splitOperation[1]));
+        operationSentence.push(t.toNumber(splitOperation[0]));
+        operationSentence.push(t.toNumber(splitOperation[1]));
 
         for (String el: splitOperation) {
             Opr = el;
@@ -44,45 +44,30 @@ public class CalculatorPolish extends CalculatorRegular implements ReduceResult,
             Op2 = operationSentence.get(operationSentence.size()-2);
 
             if(!el.matches("[\\d.]+|[-+*/]")){
-                System.out.println("Please provide arguments in the required format. Try again");
+                System.out.println("You should provide numbers or operators.");
                 lScanner.close();
-            };
-
-            if(!isValid(el)){
-                operAte();
-                reduceResult();
             }
-            else{op_i = toNumber(Opr);
+
+            if(!v.isValid(el)){
+                operAte();
+                r.reduceResult();
+            }
+            else{op_i = t.toNumber(Opr);
                 operationSentence.push(op_i);
-            };
+            }
         }
         p.printResults();
         lScanner.close();
-    };
+    }
 
 
-    @Override
-    public void reduceResult() {
+    ReduceResult r = () -> {
         operationSentence.pop();
         operationSentence.pop();
         operationSentence.push(result);
-    }
+    };
 
     @Override
-    public boolean isValid(String str) {
-        if(str.chars().allMatch(Character::isDigit)){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public Double toNumber(String str) {
-        Double num = Double.valueOf(str);
-        return num;
-    }
-
     public void operAte() {
 
         switch(Opr)
@@ -109,9 +94,12 @@ public class CalculatorPolish extends CalculatorRegular implements ReduceResult,
                 break;
             default:
                 System.out.println("wrong sign, try again");
-                break;
         }
     }
+
+    ToNumber t = Double::valueOf;
+
+    IsValid v = (str) -> str.chars().allMatch(Character::isDigit);
 
     PrintResults p = () -> System.out.println(result);
 }

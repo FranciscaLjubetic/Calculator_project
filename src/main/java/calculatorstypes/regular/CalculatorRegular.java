@@ -1,5 +1,6 @@
 package calculatorstypes.regular;
 
+import calculatorstypes.interfaces.IsValid;
 import calculatorstypes.interfaces.PrintResults;
 
 import java.util.Scanner;
@@ -18,6 +19,7 @@ public class CalculatorRegular {
        Opr = this.lScanner.nextLine();
        Op1 = this.lScanner.nextDouble();
        Op2 = this.lScanner.nextDouble();
+
 
        operAte();
 
@@ -50,12 +52,11 @@ public class CalculatorRegular {
                 }
                 break;
             default:
-                System.out.println("wrong sign, try again");
-                break;
+                System.out.println("You should provide a right operator (with no spaces). Please try again and provide right data.");
+
         }
     }
 
+
     PrintResults p = () -> System.out.println(result);
-
-
 }

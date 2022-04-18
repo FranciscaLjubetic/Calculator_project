@@ -5,23 +5,23 @@ import calculatorstypes.interfaces.PrintResults;
 import calculatorstypes.interfaces.ToNumber;
 import calculatorstypes.regular.CalculatorRegular;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CalculatorwithSteroids extends CalculatorRegular implements IsValid, ToNumber {
+public class CalculatorwithSteroids extends CalculatorRegular {
     Double result = 0.0;
     Double Op1 = 0.0;
     Double Op2 = 0.0;
     String Opr = "";
-    LinkedList<Double> Number1 = new LinkedList<>();
-    LinkedList<Double> Number2 = new LinkedList<>();
-    LinkedList<Double> Result = new LinkedList<>();
+    ArrayList<Double> Number1 = new ArrayList<>();
+    ArrayList<Double> Number2 = new ArrayList<>();
+    ArrayList<Double> Result = new ArrayList<>();
 
     public void askOperation( ){
         Scanner lScanner = new Scanner(System.in);
-        System.out.println("Enter the first number with its digits splitted by space:");
+        System.out.println("Enter the first list of numbers splitted by space:");
         String data1 = lScanner.nextLine();
-        System.out.println("Enter the second number with its digits splitted by space:");
+        System.out.println("Enter the second list of numbers splitted by space:");
         String data2 = lScanner.nextLine();
         System.out.println("Enter the operator using '+', '-', '*' or '/':");
         String operator = lScanner.nextLine();
@@ -30,7 +30,7 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
         String[] Number2Array = data2.split(" ");
 
         if(data1.isEmpty() || data2.isEmpty() || operator.isEmpty()){
-            System.out.println("You must provide complete information. Try again.");
+            System.out.println("You should provide complete information.");
             lScanner.close();
             return;
         }
@@ -38,25 +38,33 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
         int queueLen = Math.max(Number2Array.length, Number1Array.length);
 
         for (String el: Number1Array) {
-            if (!isValid(el)){
-                System.out.println("You must provide complete information. Try again.");
+            if (!v.isValid(el)){
+                System.out.println("You should provide only numbers splitted by spaces in the first and second line.");
                 lScanner.close();
                 return;
             }
         }
 
         for (String el: Number2Array){
-            if(!isValid(el)){
-                System.out.println("You must provide complete information. Try again.");
+            if(!v.isValid(el)){
+                System.out.println("You should provide only numbers splitted by spaces in the first and second line.");
                 lScanner.close();
                 return;
             }
         }
 
         if(!operator.matches("[-+*/]")) {
-            System.out.println("You must provide complete information. Try again.");
+            System.out.println("The operator can only be +, -, * or /");
             lScanner.close();
             return;
+        }
+
+        for (String s : Number1Array) {
+            Number1.add(t.toNumber(s));
+        }
+
+        for (String s : Number2Array) {
+            Number2.add(t.toNumber(s));
         }
 
         if(Number2Array.length < queueLen){
@@ -71,17 +79,9 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
             }
         }
 
-        for (String s : Number1Array) {
-            Number1.add(toNumber(s));
-        }
-
-        for (String s : Number2Array) {
-            Number2.add(toNumber(s));
-        }
-
         for (int z=0; z < queueLen; z++ ){
-            Op1 = Number1.get(z);
-            Op2 = Number2.get(z);
+            Op1 = Number2.get(z);
+            Op2 = Number1.get(z);
             Opr = operator;
             operAte();
             Result.add(result);
@@ -116,19 +116,12 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
                 break;
             default:
                 System.out.println("wrong sign, try again");
-                break;
         }
     }
 
-    @Override
-    public boolean isValid(String str) {
-        return str.chars().allMatch(Character::isDigit);
-    }
+    ToNumber t = Double::valueOf;
 
-    @Override
-    public Double toNumber(String str) {
-        return Double.valueOf(str);
-    }
+    IsValid v = (str) -> str.chars().allMatch(Character::isDigit);
 
     PrintResults p = () -> {
         String Chain = Result.toString();
@@ -136,5 +129,4 @@ public class CalculatorwithSteroids extends CalculatorRegular implements IsValid
         String finalChain = subfinalChain.replace( ",", " ");
         System.out.println(finalChain);
     };
-
 }
